@@ -2,7 +2,7 @@
 <head>
   <title>MyPlace</title>
   <link rel="stylesheet" type="text/css" href="MyPlace.css" />
-  <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+  <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
   <script src="heatmap.js" type="text/javascript"></script>
   <script id="test">
     //console.log("hi helo");
@@ -48,7 +48,7 @@
           }
 
           // This should be in a class or some shit
-          addActivity(x, y);
+          addActivity(x, y, colorCode);
         }
         
       }
@@ -58,8 +58,14 @@
 <body>
   <h1>MyPlace</h1>
   <p>The all-seeing eye of <a href="http://reddit.com/r/place">/r/place</a></p>
-  <h2>Heatmap</h2>
-  <canvas id="heatmap" width="1000" height="1000"></canvas>
+  <h2>Canvas</h2>
+  <form id="canvas-controls">
+    <label><input type="radio" name="visual" value="live" checked="checked"/>Live Stream</label>
+    <label><input type="radio" name="visual" value="heat" />Heatmap</label>
+  </form>
+  <canvas id="rendered-canvas" width="1000" height="1000"></canvas>
+  <canvas id="heat-canvas" width="1000" height="1000" style="display: none"></canvas>
+  <canvas id="live-canvas" width="1000" height="1000" style="display: none"></canvas>
   <h2>Live Feed</h2>
   <div id="feed"></div>
 </body>
