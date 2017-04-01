@@ -1,8 +1,22 @@
 <html>
 <head>
   <title>MyPlace</title>
+  <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+  <script id="test">
+    //console.log("hi helo");
+  </script>
+  <script>
+    //console.log($('#test', $("<script id=\"test\">\nconsole.log(\"hi helo\");\n</sc"+"ript>")));
+    $.get("http://cors-anywhere.herokuapp.com/https://reddit.com/place", function(data) {
+      // This is a stupidly compact line of code.  I have no excuse.
+      var uniqueWSURL = $.parseJSON($(data).filter("#config").text().match(/r\.setup\((.*)\)/)[1]).place_websocket_url;
+
+      console.log(uniqueWSURL);
+      $("#wsurl").text(uniqueWSURL)
+    });
+  </script>
 </head>
 <body>
-  <h1>hi helo</h1>
-  <p>helo hi helo</p>
+  <h1>Unique websocket URL from Reddit</h1>
+  <p id="wsurl"></p>
 </body>
