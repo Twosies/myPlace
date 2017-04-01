@@ -7,7 +7,7 @@
   </script>
   <script>
     //console.log($('#test', $("<script id=\"test\">\nconsole.log(\"hi helo\");\n</sc"+"ript>")));
-    $.get("http://cors-anywhere.herokuapp.com/https://reddit.com/place", function(data) {
+    $.get("https://cors-anywhere.herokuapp.com/https://reddit.com/place", function(data) {
       // This is a stupidly compact line of code.  I have no excuse.
       var uniqueWSURL = $.parseJSON($(data).filter("#config").text().match(/r\.setup\((.*)\)/)[1]).place_websocket_url;
 
