@@ -1,0 +1,81 @@
+/* White */
+.color-0 {
+  color: #ffffff;
+  background-color: #222222;
+}
+
+/* Light Grey */
+.color-1 {
+  color: #e4e4e4;
+  background-color: #222222;
+}
+
+/* Dark Grey */
+.color-2 {
+  color: #888888;
+}
+
+/* Black */
+.color-3 {
+  color: #222222;
+}
+
+/* Pink */
+.color-4 {
+  color: #ffa7d1;
+}
+
+/* Red */
+.color-5 {
+  color: #e50000;
+}
+
+/* Orange */
+.color-6 {
+  color: #e59500;
+}
+
+/* Brown */
+.color-7 {
+  color: #a06a42;
+}
+
+/* Yellow */
+.color-8 {
+  color: #e5d900;
+}
+
+/* Lime */
+.color-9 {
+  color: #94e044;
+}
+
+/* Green */
+.color-10 {
+  color: #02be01;
+}
+
+/* Cyan */
+.color-11 {
+  color: #00d3dd;
+}
+
+/* Cerulean */
+.color-12 {
+  color: #0083C7;
+}
+
+/* Blue */
+.color-13 {
+  color: #0000ea;
+}
+
+/* Mauve */
+.color-14 {
+  color: #cf6ee4;
+}
+
+/* Purple */
+.color-15 {
+  color: #820080;
+}
