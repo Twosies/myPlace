@@ -1,11 +1,25 @@
 <html>
 <head>
   <title>MyPlace</title>
+  <link rel="stylesheet" type="text/css" href="MyPlace.css" />
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+  <script src="heatmap.js" type="text/javascript"></script>
   <script id="test">
     //console.log("hi helo");
   </script>
   <script>
+    if (!String.format) {
+      String.format = function(format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function(match, number) { 
+          return typeof args[number] != 'undefined'
+            ? args[number] 
+            : match
+          ;
+        });
+      };
+    }
+
     //console.log($('#test', $("<script id=\"test\">\nconsole.log(\"hi helo\");\n</sc"+"ript>")));
     $.get("https://cors-anywhere.herokuapp.com/https://reddit.com/place", function(data) {
       // This is a stupidly compact line of code.  I have no excuse.
@@ -14,20 +28,36 @@
       console.log("Connecting to " + uniqueWSURL);
 
       var socket = new WebSocket(uniqueWSURL);
-//
+//    
       //document.write("helo");
       socket.onmessage = function(event) {
-        $('#feed').append('<div class="feed-item">' + event.data + '</div>');
-        if($('#feed .feed-item').length > 10) {
-          $('#feed .feed-item:first').remove();
+        data = $.parseJSON(event.data);
+        if(data.type == 'place') {
+          var user = data.payload.author;
+          var x = data.payload.x;
+          var y = data.payload.y;
+          var colorCode = data.payload.color;
+          $('#feed').append(
+            String.format(
+              '<div class="feed-item"><span class="color-{0}"><a href="https://reddit.com/u/{1}">/u/{1}</a> just placed a pixel at {2}, {3}!</span></div>',
+              colorCode, user, x, y
+            )
+          );
+          if($('#feed .feed-item').length > 10) {
+            $('#feed .feed-item:first').remove();
+          }
+
+          // This should be in a class or some shit
+          addActivity(x, y);
         }
+        
       }
     });
   </script>
 </head>
 <body>
   <h1>MyPlace</h1>
-  <p>The all-seeing eye of /r/place</p>
+  <p>The all-seeing eye of <a href="http://reddit.com/r/place">/r/place</a></p>
   <h2>Heatmap</h2>
   <canvas id="heatmap" width="1000" height="1000"></canvas>
   <h2>Live Feed</h2>
