@@ -11,12 +11,25 @@
       // This is a stupidly compact line of code.  I have no excuse.
       var uniqueWSURL = $.parseJSON($(data).filter("#config").text().match(/r\.setup\((.*)\)/)[1]).place_websocket_url;
 
-      console.log(uniqueWSURL);
-      $("#wsurl").text(uniqueWSURL)
+      console.log("Connecting to " + uniqueWSURL);
+
+      var socket = new WebSocket(uniqueWSURL);
+//
+      //document.write("helo");
+      socket.onmessage = function(event) {
+        $('#feed').append('<div class="feed-item">' + event.data + '</div>');
+        if($('#feed .feed-item').length > 10) {
+          $('#feed .feed-item:first').remove();
+        }
+      }
     });
   </script>
 </head>
 <body>
-  <h1>Unique websocket URL from Reddit</h1>
-  <p id="wsurl"></p>
+  <h1>MyPlace</h1>
+  <p>The all-seeing eye of /r/place</p>
+  <h2>Heatmap</h2>
+  <canvas id="heatmap" width="1000" height="1000"></canvas>
+  <h2>Live Feed</h2>
+  <div id="feed"></div>
 </body>
