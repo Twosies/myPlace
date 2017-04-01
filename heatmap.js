@@ -31,7 +31,7 @@ var colors = [[255, 255, 255],
 //   I spent hours discovering this.
 var loadCurrentCanvas = function() {
   var oReq = new XMLHttpRequest();
-  oReq.open("GET", "http://cors-anywhere.herokuapp.com/https://www.reddit.com/api/place/board-bitmap", true);
+  oReq.open("GET", "https://cors-anywhere.herokuapp.com/https://www.reddit.com/api/place/board-bitmap", true);
   oReq.responseType = "arraybuffer";
   
   oReq.onload = function (event) {
