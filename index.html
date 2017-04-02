@@ -3,10 +3,8 @@
   <title>MyPlace</title>
   <link rel="stylesheet" type="text/css" href="MyPlace.css" />
   <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-  <script src="heatmap.js" type="text/javascript"></script>
-  <script id="test">
-    //console.log("hi helo");
-  </script>
+  <script src="./js/plugins/jquery.panzoom.min.js" type="text/javascript"></script>
+  <script src="./js/heatmap.js" type="text/javascript"></script>
   <script>
     var processConfigUpdates = function() {
       $.get("https://cors-anywhere.herokuapp.com/https://reddit.com/place", function(data) {
@@ -32,7 +30,6 @@
       };
     }
 
-    //console.log($('#test', $("<script id=\"test\">\nconsole.log(\"hi helo\");\n</sc"+"ript>")));
     $.get("https://cors-anywhere.herokuapp.com/https://reddit.com/place", function(data) {
       // This is a stupidly compact line of code.  I have no excuse.
       var uniqueWSURL = $.parseJSON($(data).filter("#config").text().match(/r\.setup\((.*)\)/)[1]).place_websocket_url;
@@ -70,6 +67,22 @@
       setInterval(processConfigUpdates, 30000);
     });
   </script>
+  <script>
+    $(document).ready(function() {
+      var $panzoom = $('.panzoom').panzoom();
+      $panzoom.parent().on('mousewheel.focal', function( e ) {
+        e.preventDefault();
+        var delta = e.delta || e.originalEvent.wheelDelta;
+        var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+        $panzoom.panzoom('zoom', zoomOut, {
+          animate: false,
+          focal: e,
+          minScale: 0.1,
+          maxScale: 10,
+        });
+      });
+    });
+  </script>
 </head>
 <body>
   <h1>MyPlace</h1>
@@ -81,9 +94,12 @@
     <label><input type="radio" name="visual" value="live" checked="checked"/>Live Stream</label>
     <label><input type="radio" name="visual" value="heat" />Heatmap</label>
   </form>
-  <canvas id="rendered-canvas" width="1000" height="1000"></canvas>
+  <div class="parent" style="border: 1px solid black">
+    <canvas id="rendered-canvas" width="1000" height="1000" class="panzoom"></canvas>
+  </div>
   <canvas id="heat-canvas" width="1000" height="1000" style="display: none"></canvas>
   <canvas id="live-canvas" width="1000" height="1000" style="display: none"></canvas>
+  <p>Panning and zooming provided by Timmy Willison's <a href="https://github.com/timmywil/jquery.panzoom">panzoom</a> JQuery plugin</p>
   <h2>Live Feed</h2>
   <div id="feed"></div>
 </body>
