@@ -44,11 +44,11 @@ var loadCurrentCanvas = function() {
         dataArray.push((colorCode >>>  4) & 0xf);
         dataArray.push((colorCode >>>  0) & 0xf);
       }
-      for(var i = 0; i < dataArray.length; i++) {
+      for(var i = 8; i < dataArray.length; i++) {
         colorCode = dataArray[i];
-        ctxDataLive.data[i*4 + 0] = colors[colorCode][0];
-        ctxDataLive.data[i*4 + 1] = colors[colorCode][1];
-        ctxDataLive.data[i*4 + 2] = colors[colorCode][2];
+        ctxDataLive.data[(i-8)*4 + 0] = colors[colorCode][0];
+        ctxDataLive.data[(i-8)*4 + 1] = colors[colorCode][1];
+        ctxDataLive.data[(i-8)*4 + 2 ] = colors[colorCode][2];
       }
     }
   };

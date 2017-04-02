@@ -8,6 +8,18 @@
     //console.log("hi helo");
   </script>
   <script>
+    var processConfigUpdates = function() {
+      $.get("https://cors-anywhere.herokuapp.com/https://reddit.com/place", function(data) {
+        var JSONConfig = $.parseJSON($(data).filter("#config").text().match(/r\.setup\((.*)\)/)[1]);
+        var numParticipants = JSONConfig.place_active_visitors;
+        var currentCooldown = JSONConfig.place_cooldown;
+        
+        $('#num-participants').text(numParticipants);
+        $('#cooldown').text(currentCooldown);
+      });
+    }
+  </script>
+  <script>
     if (!String.format) {
       String.format = function(format) {
         var args = Array.prototype.slice.call(arguments, 1);
@@ -28,7 +40,7 @@
       console.log("Connecting to " + uniqueWSURL);
 
       var socket = new WebSocket(uniqueWSURL);
-//    
+    
       //document.write("helo");
       socket.onmessage = function(event) {
         data = $.parseJSON(event.data);
@@ -49,15 +61,21 @@
 
           // This should be in a class or some shit
           addActivity(x, y, colorCode);
+        } else {
+          console.log(event.data);
         }
         
       }
+      processConfigUpdates();
+      setInterval(processConfigUpdates, 30000);
     });
   </script>
 </head>
 <body>
   <h1>MyPlace</h1>
-  <p>The all-seeing eye of <a href="http://reddit.com/r/place">/r/place</a></p>
+  <p>The all-seeing eye of <a href="https://reddit.com/r/place">/r/place</a></p>
+  <p>There are currently <span id="num-participants" class="config-data"></span> participants.
+     Cooldown is currently <span id="cooldown" class="config-data"></span> seconds.</p>
   <h2>Canvas</h2>
   <form id="canvas-controls">
     <label><input type="radio" name="visual" value="live" checked="checked"/>Live Stream</label>
