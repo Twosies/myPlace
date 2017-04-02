@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 /* White */
 .color-0 {
   color: #ffffff;
@@ -80,7 +85,6 @@
   color: #820080;
 }
 
-
 canvas {
   image-rendering: optimizeSpeed;             /* Older versions of FF          */
   image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
@@ -89,3 +93,88 @@ canvas {
   image-rendering: pixelated;                 /* Awesome future-browsers       */
   -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
 }
+
+body {
+  background-color: #EFF7FF;
+  color: #222222;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#header {
+  color: #ffffff;
+  background-color: #3399ee;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 2.5em;
+  z-index: 1;
+}
+
+#header .title {
+  font-size: 2em;
+  color: #EFF7FF;
+}
+
+#header .info {
+  font-size: 0.8em;
+  margin-top: 1.7em;
+  float: right;
+}
+
+#main {
+  margin-top: 2.5em;
+}
+
+#sidebar {
+  float: right;
+  width: 25em;
+}
+
+#sidebar h1 {
+  font-size: 1.5em;
+}
+
+#feed {
+  margin-left: 1em;
+  margin-top: 1em;
+}
+
+
+#feed-content {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 0.8em;
+  height: 10em;
+  white-space: nowrap;
+  overflow-y: scroll;
+}
+
+#canvas-section {
+  margin-right: 25em;
+  height: 80%;
+  position: relative;
+
+}
+
+#canvas-controls {
+  background-color: #EFF7FF;
+}
+
+#canvas-container {
+  background-color: #808080;
+  position: absolute;
+  bottom: 0;
+  top: 1em;
+  left: 0;
+  right: 0;
+}
+
+/* This ruined zooming, so I took it out */
+/*
+#rendered-canvas {
+  left: 50%;
+  top: 50%;
+  margin-left: -500px;
+  margin-top: -500px;
+  position: relative;
+}
+*/
