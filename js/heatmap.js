@@ -103,11 +103,6 @@ $(document).ready(function(){
   ctxLive.fillStyle = 'white';
   ctxLive.fillRect(0,0,canvasWidth,canvasHeight);
 
-  ctx.mozImageSmoothingEnabled = false;
-  ctx.webkitImageSmoothingEnabled = false;
-  ctx.msImageSmoothingEnabled = false;
-  ctx.imageSmoothingEnabled = false;
-
   ctxDataHeat = ctxHeat.getImageData(0,0,canvasWidth,canvasHeight);
   ctxDataLive = ctxLive.getImageData(0,0,canvasWidth,canvasHeight);
 
