@@ -46,15 +46,16 @@
           var x = data.payload.x;
           var y = data.payload.y;
           var colorCode = data.payload.color;
-          $('#feed').append(
+          $('#feed-content').append(
             String.format(
-              '<div class="feed-item"><span class="color-{0}"><a href="https://reddit.com/u/{1}">/u/{1}</a> just placed a pixel at {2}, {3}!</span></div>',
+              '<div class="feed-item"><a href="https://reddit.com/u/{1}">/u/{1}</a> <span class="color-{0}">just placed a pixel at {2}, {3}!</span></div>',
               colorCode, user, x, y
             )
           );
-          if($('#feed .feed-item').length > 10) {
-            $('#feed .feed-item:first').remove();
+          if($('#feed-content .feed-item').length > 50) {
+            $('#feed-content .feed-item:first').remove();
           }
+          updateFeedScroll();
 
           // This should be in a class or some shit
           addActivity(x, y, colorCode);
@@ -77,29 +78,84 @@
         $panzoom.panzoom('zoom', zoomOut, {
           animate: false,
           focal: e,
-          minScale: 0.1,
-          maxScale: 10,
+          minScale: 0.0942992,
+          maxScale: 10.6045,
         });
       });
     });
   </script>
+  <script>
+    var scrolledToBottom = true;
+
+    var updateFeedScroll = function() {
+      if(scrolledToBottom) {
+        var elem = $("#feed-content")[0];
+        elem.scrollTop = (elem.scrollHeight - elem.clientHeight);
+      }
+    }
+
+    $(document).ready(function() {
+      $("#feed-content").on('scroll', function() {
+        scrolledToBottom = (this.scrollHeight - this.clientHeight <= this.scrollTop+1)
+      });
+
+      $("#canvas-controls input:checkbox[name=fullscreen]").change(function() {
+        if($(this).is(":checked")) {
+          $("#canvas-section").css({
+            position: 'fixed',
+            top: '0',
+            bottom: '0',
+            left: '0',
+            right: '0',
+            height: '100%',
+            width: '100%',
+            'z-index': '2'
+          })
+        } else {
+          $("#canvas-section").css({
+            'margin-right': '20em',
+            height: '80%',
+            width: 'auto',
+            position: 'relative',
+            'z-index': 0
+          })
+        }
+      })
+    });
+  </script>
 </head>
 <body>
-  <h1>MyPlace</h1>
-  <p>The all-seeing eye of <a href="https://reddit.com/r/place">/r/place</a></p>
-  <p>There are currently <span id="num-participants" class="config-data"></span> participants.
-     Cooldown is currently <span id="cooldown" class="config-data"></span> seconds.</p>
-  <h2>Canvas</h2>
-  <form id="canvas-controls">
-    <label><input type="radio" name="visual" value="live" checked="checked"/>Live Stream</label>
-    <label><input type="radio" name="visual" value="heat" />Heatmap</label>
-  </form>
-  <div class="parent" style="border: 1px solid black">
-    <canvas id="rendered-canvas" width="1000" height="1000" class="panzoom"></canvas>
+  <div id="header">
+    <span class="title">MyPlace</span>
+    <span class="tagline">The all-seeing eye of <a href="https://reddit.com/r/place">/r/place</a></span>
+    <span class="info">There are currently <span id="num-participants" class="config-data"></span> participants.
+       Cooldown is currently <span id="cooldown" class="config-data"></span> seconds.</span>
   </div>
-  <canvas id="heat-canvas" width="1000" height="1000" style="display: none"></canvas>
-  <canvas id="live-canvas" width="1000" height="1000" style="display: none"></canvas>
-  <p>Panning and zooming provided by Timmy Willison's <a href="https://github.com/timmywil/jquery.panzoom">panzoom</a> JQuery plugin</p>
-  <h2>Live Feed</h2>
-  <div id="feed"></div>
+  <div id="main">
+    <div id="sidebar">
+      <div id="feed">
+        <h1>Feed:</h1>
+        <span class="info">Refresh page if this doesn't update for 30s or more</span>
+        <div id="feed-content">
+        </div>
+      </div>
+    </div>
+    <div id="canvas-section">
+      <form id="canvas-controls">
+        <label><input type="radio" name="visual" value="live" checked="checked"/>Live Stream</label>
+        <label><input type="radio" name="visual" value="heat" />Heatmap</label>
+        <label><input type="checkbox" name="fullscreen" />Fullscreen</label>
+      </form>
+      <div id="canvas-container" class="parent" style="border: 1px solid black">
+        <canvas id="rendered-canvas" width="1000" height="1000" class="panzoom"></canvas>
+      </div>
+    </div>
+    <canvas id="heat-canvas" width="1000" height="1000" style="display: none"></canvas>
+    <canvas id="live-canvas" width="1000" height="1000" style="display: none"></canvas>
+    <h1>Stats</h1>
+    <p>Stats will go here when I make them...</p>
+  </div>
+  <div id="footer">
+    <p style="float:right">Panning and zooming provided by Timmy Willison's <a href="https://github.com/timmywil/jquery.panzoom">panzoom</a> JQuery plugin</p>
+  </div>
 </body>
